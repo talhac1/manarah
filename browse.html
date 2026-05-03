@@ -1,0 +1,496 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Browse Khateebs — Manarah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  /* ---------- PAGE HEADER ---------- */
+  .browse-header {
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, #897ea3, transparent 60%),
+      linear-gradient(180deg, #7a6f93 0%, #6b6184 100%);
+    color: #f4ede0;
+    padding: 0 0 56px;
+  }
+  .browse-header .topnav { margin-bottom: 0; }
+  .browse-hero-content {
+    padding: 48px 0 0;
+    text-align: center;
+    position: relative; z-index: 2;
+  }
+  .browse-hero-content .ornament { justify-content: center; margin-bottom: 20px; }
+  .browse-hero-content .ornament .line { background: rgba(251,248,243,0.3); }
+  .browse-hero-content .ornament { color: rgba(251,248,243,0.4); }
+  .browse-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--lav-mid);
+    margin-bottom: 12px;
+  }
+  .browse-hero-content h1 {
+    font-size: clamp(40px, 6vw, 80px);
+    color: #fbf8f3;
+    margin: 0 0 16px;
+    font-weight: 500;
+    line-height: 1.05;
+  }
+  .browse-hero-content h1 em {
+    color: var(--lav-mid);
+    font-style: italic;
+    font-weight: 400;
+  }
+  .browse-hero-content p {
+    max-width: 520px;
+    margin: 0 auto;
+    color: rgba(251,248,243,0.72);
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  /* ---------- FILTER BAR ---------- */
+  .browse-filters {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding: 20px 0;
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    box-shadow: 0 4px 24px rgba(42,36,53,0.07);
+  }
+  .filters-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .filters-label {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--lav-deep);
+    white-space: nowrap;
+    font-weight: 500;
+  }
+  .filter-divider {
+    width: 1px;
+    height: 24px;
+    background: var(--line);
+    flex-shrink: 0;
+  }
+  .chips-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .chips-group-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .chip-btn {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    padding: 7px 16px;
+    border-radius: 999px;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .chip-btn:hover { border-color: var(--lav); color: var(--lav-deep); }
+  .chip-btn.active {
+    background: var(--lav-deep);
+    color: #fff;
+    border-color: var(--lav-deep);
+  }
+  .chip-btn.city-chip.active {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .results-count {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--muted);
+    font-style: italic;
+    white-space: nowrap;
+  }
+
+  /* ---------- GRID ---------- */
+  .browse-body {
+    padding: 56px 0 100px;
+  }
+  .dir-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 28px;
+  }
+  .khateeb-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex; flex-direction: column;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .khateeb-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px rgba(107,90,158,0.18);
+    border-color: var(--lav-mid);
+  }
+  .card-photo {
+    aspect-ratio: 4/3.4;
+    background: linear-gradient(135deg, var(--lav-soft), #f5f0e6);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .card-photo .initials {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 84px;
+    color: var(--lav);
+    opacity: 0.55;
+  }
+  .card-photo .photo-tag {
+    position: absolute;
+    bottom: 14px; left: 14px;
+    background: rgba(26,23,38,0.85);
+    color: #fbf8f3;
+    font-size: 11px;
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-style: italic;
+  }
+  .card-photo .availability {
+    position: absolute;
+    top: 14px; right: 14px;
+    background: rgba(45,90,61,0.92);
+    color: #fbf8f3;
+    font-size: 11px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .card-photo .availability.limited { background: rgba(184,151,92,0.95); }
+  .availability .dot { width: 6px; height: 6px; background: #fbf8f3; border-radius: 50%; }
+  .card-body { padding: 24px 26px 22px; flex: 1; display: flex; flex-direction: column; }
+  .card-body h3 {
+    font-size: 26px;
+    margin: 0 0 4px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .card-role {
+    color: var(--lav-deep);
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    margin-bottom: 16px;
+  }
+  .card-meta {
+    display: flex; flex-wrap: wrap; gap: 8px 16px;
+    font-size: 14px;
+    color: var(--muted);
+    padding: 14px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 16px;
+  }
+  .card-tags {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    margin-bottom: 18px;
+    flex: 1;
+    align-content: flex-start;
+  }
+  .role-tag {
+    padding: 5px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .role-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  .role-khateeb {
+    background: var(--lav-soft);
+    color: var(--lav-deep);
+    border: 1px solid rgba(107,90,158,0.18);
+  }
+  .role-qari {
+    background: rgba(45,90,61,0.08);
+    color: var(--green);
+    border: 1px solid rgba(45,90,61,0.18);
+  }
+  .card-cta {
+    display: flex; align-items: center; justify-content: space-between;
+    color: var(--lav-deep);
+    font-weight: 500;
+    font-size: 15px;
+    margin-top: auto;
+  }
+  .card-cta .arrow { transition: transform .2s; }
+  .khateeb-card:hover .card-cta .arrow { transform: translateX(4px); }
+
+  /* Empty state */
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px 24px;
+  }
+  .empty-state .ornament { justify-content: center; margin-bottom: 20px; }
+  .empty-state h3 {
+    font-size: 32px;
+    font-style: italic;
+    color: var(--ink);
+    margin: 0 0 10px;
+    font-weight: 500;
+  }
+  .empty-state p { color: var(--muted); font-size: 15px; }
+
+  @media (max-width: 720px) {
+    .filters-inner { gap: 10px; }
+    .filter-divider { display: none; }
+    .results-count { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="browse-header">
+  <nav class="topnav on-dark">
+    <a class="brand-mark" href="index.html">
+      <span class="seal logo-seal">
+        <img src="assets/manarah-logo.png" alt="Manarah logo" />
+      </span>
+      Manarah
+    </a>
+    <div class="topnav-links">
+      <a href="index.html">Home</a>
+      <a href="index.html#how">How It Works</a>
+      <a href="index.html#verse">Mission</a>
+      <a href="mailto:salam@manarah.org">Contact</a>
+    </div>
+  </nav>
+  <div class="container browse-hero-content">
+    <div class="ornament"><span class="line"></span><span class="star"></span><span class="line"></span></div>
+    <div class="browse-eyebrow">Assalāmu ʿalaykum —</div>
+    <h1>Find your <em>khateeb</em></h1>
+    <p>Browse verified student khateebs across Canada. Filter by role or city to find the right fit for your Jumu'ah.</p>
+  </div>
+</header>
+
+<!-- ============== STICKY FILTER BAR ============== -->
+<div class="browse-filters">
+  <div class="container filters-inner">
+    <span class="filters-label">Filter by</span>
+    <div class="filter-divider"></div>
+
+    <div class="chips-group">
+      <span class="chips-group-label">Role</span>
+      <button class="chip-btn active" data-role="all">All</button>
+      <button class="chip-btn" data-role="khateeb">Khateebs</button>
+      <button class="chip-btn" data-role="qari">Qaris</button>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <div class="chips-group">
+      <span class="chips-group-label">City</span>
+      <button class="chip-btn city-chip active" data-city="all">All cities</button>
+      <button class="chip-btn city-chip" data-city="hamilton">Hamilton</button>
+      <button class="chip-btn city-chip" data-city="toronto">Toronto</button>
+      <button class="chip-btn city-chip" data-city="waterloo">Waterloo</button>
+    </div>
+
+    <span class="results-count" id="resultsCount">3 khateebs</span>
+  </div>
+</div>
+
+<!-- ============== GRID ============== -->
+<section class="browse-body">
+  <div class="container">
+    <div class="dir-grid" id="dirGrid">
+
+      <!-- ZAYAAN -->
+      <a class="khateeb-card" href="khateebs/zayaan.html" data-roles="khateeb qari" data-city="hamilton">
+        <div class="card-photo">
+          <span class="initials">ZB</span>
+          <span class="photo-tag">Photo of Br. Zayaan</span>
+          <span class="availability"><span class="dot"></span> Available</span>
+        </div>
+        <div class="card-body">
+          <h3>Br. Zayaan Backus</h3>
+          <div class="card-role">McMaster MSA · Roots Academy</div>
+          <div class="card-meta">
+            <span>📍 Hamilton, ON</span>
+            <span>· Age 21</span>
+            <span>· 12+ khutbahs</span>
+          </div>
+          <div class="card-tags">
+            <span class="role-tag role-khateeb">Khateeb</span>
+            <span class="role-tag role-qari">Qari</span>
+          </div>
+          <div class="card-cta">View profile <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- YUSUF -->
+      <a class="khateeb-card" href="khateebs/yusuf.html" data-roles="khateeb qari" data-city="toronto">
+        <div class="card-photo">
+          <span class="initials">YR</span>
+          <span class="photo-tag">Photo of Br. Yusuf</span>
+          <span class="availability"><span class="dot"></span> Available</span>
+        </div>
+        <div class="card-body">
+          <h3>Br. Yusuf Rahman</h3>
+          <div class="card-role">U of T MSA · Hifdh Graduate</div>
+          <div class="card-meta">
+            <span>📍 Toronto, ON</span>
+            <span>· Age 23</span>
+            <span>· 30+ khutbahs</span>
+          </div>
+          <div class="card-tags">
+            <span class="role-tag role-khateeb">Khateeb</span>
+            <span class="role-tag role-qari">Qari</span>
+          </div>
+          <div class="card-cta">View profile <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+      <!-- IDRIS -->
+      <a class="khateeb-card" href="khateebs/idris.html" data-roles="khateeb" data-city="waterloo">
+        <div class="card-photo">
+          <span class="initials">IM</span>
+          <span class="photo-tag">Photo of Br. Idris</span>
+          <span class="availability limited"><span class="dot"></span> Limited</span>
+        </div>
+        <div class="card-body">
+          <h3>Br. Idris Mohammed</h3>
+          <div class="card-role">Waterloo MSA · Youth Worker</div>
+          <div class="card-meta">
+            <span>📍 Waterloo, ON</span>
+            <span>· Age 22</span>
+            <span>· 20+ khutbahs</span>
+          </div>
+          <div class="card-tags">
+            <span class="role-tag role-khateeb">Khateeb</span>
+          </div>
+          <div class="card-cta">View profile <span class="arrow">→</span></div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>Manarah</h3>
+        <p>A directory of trusted student khateebs, helping MSAs and high schools host meaningful Jumu'ahs across Canada.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="browse.html">All Khateebs</a>
+        <a href="index.html#how">How It Works</a>
+        <a href="index.html#verse">Mission</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="mailto:salam@manarah.org">salam@manarah.org</a>
+        <a href="#">Apply as a Khateeb</a>
+        <a href="#">For Teachers / Vetting</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Manarah — Built with intention.</div>
+      <div><span class="ar">بسم الله الرحمن الرحيم</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const cards = Array.from(document.querySelectorAll('.khateeb-card'));
+  const roleButtons = document.querySelectorAll('[data-role]');
+  const cityButtons = document.querySelectorAll('[data-city]');
+  const countEl = document.getElementById('resultsCount');
+
+  let activeRole = 'all';
+  let activeCity = 'all';
+
+  function applyFilters() {
+    let visible = 0;
+    cards.forEach(card => {
+      const roles = (card.dataset.roles || '').split(' ');
+      const city = card.dataset.city || '';
+      const roleMatch = activeRole === 'all' || roles.includes(activeRole);
+      const cityMatch = activeCity === 'all' || city === activeCity;
+      const show = roleMatch && cityMatch;
+      card.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+
+    const grid = document.getElementById('dirGrid');
+    const existing = grid.querySelector('.empty-state');
+    if (visible === 0) {
+      if (!existing) {
+        const empty = document.createElement('div');
+        empty.className = 'empty-state';
+        empty.innerHTML = `
+          <div class="ornament"><span class="line"></span><span class="star"></span><span class="line"></span></div>
+          <h3>No khateebs found</h3>
+          <p>Try adjusting your filters — more khateebs are being added soon, in shā' Allāh.</p>
+        `;
+        grid.appendChild(empty);
+      }
+    } else {
+      if (existing) existing.remove();
+    }
+
+    const noun = visible === 1 ? 'khateeb' : 'khateebs';
+    countEl.textContent = `${visible} ${noun}`;
+  }
+
+  roleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      roleButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeRole = btn.dataset.role;
+      applyFilters();
+    });
+  });
+
+  cityButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      cityButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeCity = btn.dataset.city;
+      applyFilters();
+    });
+  });
+</script>
+
+</body>
+</html>
