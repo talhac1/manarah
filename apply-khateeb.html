@@ -1,0 +1,531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Apply as a Khateeb — Manarah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .apply-header {
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, #897ea3, transparent 60%),
+      linear-gradient(180deg, #7a6f93 0%, #6b6184 100%);
+    color: #f4ede0;
+    padding: 0 0 64px;
+  }
+  .apply-hero-content {
+    padding: 48px 0 0;
+    text-align: center;
+    position: relative; z-index: 2;
+  }
+  .apply-hero-content .ornament { justify-content: center; margin-bottom: 20px; color: rgba(251,248,243,0.35); }
+  .apply-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--lav-mid);
+    margin-bottom: 12px;
+  }
+  .apply-hero-content h1 {
+    font-size: clamp(40px, 6vw, 76px);
+    color: #fbf8f3;
+    margin: 0 0 18px;
+    font-weight: 500;
+    line-height: 1.05;
+  }
+  .apply-hero-content h1 em { color: var(--lav-mid); font-style: italic; font-weight: 400; }
+  .apply-hero-content p {
+    max-width: 560px;
+    margin: 0 auto;
+    color: rgba(251,248,243,0.72);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  /* ---------- FORM BODY ---------- */
+  .apply-body {
+    padding: 80px 0 100px;
+  }
+  .apply-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  @media (max-width: 860px) { .apply-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+  /* Sidebar */
+  .apply-sidebar {}
+  .sidebar-block {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 28px 22px;
+    margin-bottom: 20px;
+  }
+  .sidebar-block h3 {
+    font-size: 22px;
+    font-style: italic;
+    color: var(--lav-deep);
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .sidebar-block p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0 0 10px;
+  }
+  .sidebar-block p:last-child { margin-bottom: 0; }
+  .criteria-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .criteria-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .criteria-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--lav-deep);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+
+  /* Form card */
+  .apply-form-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 10px 40px rgba(107,90,158,0.06);
+  }
+  @media (max-width: 600px) { .apply-form-card { padding: 28px; } }
+
+  .form-section {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .form-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--lav-deep);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .form-section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .checkbox-group {
+    display: flex; flex-wrap: wrap; gap: 10px;
+  }
+  .checkbox-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink-soft);
+    transition: all .15s;
+    user-select: none;
+  }
+  .checkbox-pill input[type="checkbox"] { display: none; }
+  .checkbox-pill:has(input:checked) {
+    background: var(--lav-soft);
+    border-color: var(--lav-deep);
+    color: var(--lav-deep);
+    font-weight: 500;
+  }
+  .checkbox-pill .pill-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+    flex-shrink: 0;
+  }
+  .checkbox-pill:has(input:checked) .pill-dot { opacity: 1; }
+
+  .form-actions {
+    margin-top: 36px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .submit-btn {
+    background: var(--lav-deep);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 15px 32px;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 12px;
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .submit-btn:hover { background: var(--lav); transform: translateY(-1px); box-shadow: 0 12px 28px rgba(107,90,158,0.25); }
+  .submit-btn .arrow { transition: transform .2s; }
+  .submit-btn:hover .arrow { transform: translateX(3px); }
+  .form-meta { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  .disclaimer {
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: var(--lav-soft);
+    border-left: 3px solid var(--lav-deep);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .disclaimer strong {
+    display: block;
+    font-style: normal;
+    color: var(--lav-deep);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .success-state { text-align: center; padding: 40px 8px; }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: var(--lav-soft);
+    color: var(--lav-deep);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .success-state h3 { font-size: 32px; color: var(--lav-deep); margin: 0 0 10px; font-style: italic; font-weight: 500; }
+  .success-state p { color: var(--muted); max-width: 480px; margin: 0 auto 24px; line-height: 1.6; }
+  .ref-num {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    background: var(--paper-2);
+    color: var(--lav-deep);
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="apply-header">
+  <nav class="topnav on-dark">
+    <a class="brand-mark" href="index.html">
+      <span class="seal logo-seal">
+        <img src="assets/manarah-logo.png" alt="Manarah logo" />
+      </span>
+      Manarah
+    </a>
+    <div class="topnav-links">
+      <a href="browse.html">Khateebs</a>
+      <a href="index.html#how">How It Works</a>
+      <a href="index.html#verse">Mission</a>
+      <a href="mailto:salam@manarah.org">Contact</a>
+    </div>
+  </nav>
+  <div class="container apply-hero-content">
+    <div class="ornament"><span class="line"></span><span class="star"></span><span class="line"></span></div>
+    <div class="apply-eyebrow">Join the directory —</div>
+    <h1>Apply as a <em>Khateeb</em></h1>
+    <p>We're looking for sincere, knowledgeable student khateebs to join Manarah. If you've delivered Jumu'ah khutbahs and are vouched for by a teacher, we'd love to hear from you.</p>
+  </div>
+</header>
+
+<!-- ============== FORM BODY ============== -->
+<section class="apply-body">
+  <div class="container apply-layout">
+
+    <!-- Sidebar -->
+    <aside class="apply-sidebar">
+      <div class="sidebar-block">
+        <h3>Who we're looking for</h3>
+        <ul class="criteria-list">
+          <li>Currently studying Islamic knowledge under a qualified teacher</li>
+          <li>Has delivered at least 3 Jumu'ah khutbahs</li>
+          <li>Can provide a teacher reference who will vouch for you</li>
+          <li>Committed to punctuality and clear communication</li>
+          <li>Based in Canada (currently Ontario-focused)</li>
+        </ul>
+      </div>
+      <div class="sidebar-block">
+        <h3>What happens next</h3>
+        <p>We'll review your application and reach out to your teacher reference. If everything checks out, you'll receive a profile on Manarah within 1–2 weeks, in shā' Allāh.</p>
+        <p>Your profile will be reviewed and updated with you before it goes live.</p>
+      </div>
+      <div class="sidebar-block">
+        <h3>Questions?</h3>
+        <p>Reach us at <a href="mailto:salam@manarah.org" style="color:var(--lav-deep);">salam@manarah.org</a></p>
+      </div>
+    </aside>
+
+    <!-- Form -->
+    <div class="apply-form-card">
+      <form id="applyForm" novalidate>
+
+        <div class="form-section">
+          <div class="form-section-title">Personal details</div>
+          <div class="form-section-sub">Basic information about you.</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" name="name" placeholder="Your full name" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Age <span class="req">*</span></label>
+              <input type="number" name="age" placeholder="e.g. 21" min="15" max="40" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Email <span class="req">*</span></label>
+              <input type="email" name="email" placeholder="you@email.com" required />
+              <span class="err-msg" hidden>Enter a valid email.</span>
+            </div>
+            <div class="field">
+              <label>Phone Number <span class="req">*</span></label>
+              <input type="tel" name="phone" placeholder="(905) 555 — 0142" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>City <span class="req">*</span></label>
+              <select name="city" required>
+                <option value="">Select your city…</option>
+                <option>Hamilton</option>
+                <option>Toronto</option>
+                <option>Mississauga</option>
+                <option>Waterloo</option>
+                <option>Ottawa</option>
+                <option>London</option>
+                <option>Other Ontario</option>
+              </select>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Travel Radius <span class="req">*</span></label>
+              <select name="radius" required>
+                <option value="">How far can you travel?</option>
+                <option>Within my city only</option>
+                <option>Up to 50km</option>
+                <option>Up to 100km</option>
+                <option>Up to 200km</option>
+                <option>Anywhere in Ontario</option>
+              </select>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Languages <span class="req">*</span></label>
+              <input type="text" name="languages" placeholder="e.g. English, Arabic, Urdu" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Studies & credentials</div>
+          <div class="form-section-sub">Tell us about your Islamic education and secular studies.</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>University / Institution <span class="req">*</span></label>
+              <input type="text" name="university" placeholder="e.g. McMaster University" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Program / Degree <span class="req">*</span></label>
+              <input type="text" name="program" placeholder="e.g. B.Sc. Life Sciences" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Islamic Studies (where and what you study) <span class="req">*</span></label>
+              <input type="text" name="islamicStudies" placeholder="e.g. Hifdh at Taqwa Institute, Fiqh under Ustadh X" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Primary Teacher / Scholar (who will vouch for you) <span class="req">*</span></label>
+              <input type="text" name="teacher" placeholder="Full name and institution" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Teacher's Contact Email <span class="req">*</span></label>
+              <input type="email" name="teacherEmail" placeholder="teacher@institute.org" required />
+              <span class="err-msg" hidden>Enter a valid email.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Khutbah experience</div>
+          <div class="form-section-sub">Your track record delivering Jumu'ah.</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>Khutbahs Delivered <span class="req">*</span></label>
+              <select name="khutbahCount" required>
+                <option value="">Approximate number…</option>
+                <option>3–5</option>
+                <option>6–10</option>
+                <option>11–20</option>
+                <option>21–50</option>
+                <option>50+</option>
+              </select>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Venues Served <span class="req">*</span></label>
+              <input type="text" name="venues" placeholder="e.g. McMaster MSA, Westdale SS" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Link to a Recording <span class="opt">/ optional but strongly recommended</span></label>
+              <input type="url" name="recording" placeholder="https://youtube.com/..." />
+              <span class="field-hint">A YouTube or similar link to any past khutbah. Helps us understand your delivery.</span>
+            </div>
+          </div>
+          <div style="margin-top:20px;">
+            <div class="field">
+              <label>Specialties <span class="opt">/ select all that apply</span></label>
+              <div class="checkbox-group" style="margin-top:8px;">
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="quran"><span class="pill-dot"></span>Qur'an</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="fiqh"><span class="pill-dot"></span>Fiqh</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="tazkiyah"><span class="pill-dot"></span>Tazkiyah</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="seerah"><span class="pill-dot"></span>Seerah</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="aqeedah"><span class="pill-dot"></span>Aqeedah</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="tafsir"><span class="pill-dot"></span>Tafsir</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="youth"><span class="pill-dot"></span>Youth</label>
+                <label class="checkbox-pill"><input type="checkbox" name="spec" value="highschool"><span class="pill-dot"></span>High School</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">About you</div>
+          <div class="form-section-sub">In your own words.</div>
+          <div class="form-grid">
+            <div class="field full">
+              <label>Brief Bio <span class="req">*</span></label>
+              <textarea name="bio" rows="5" placeholder="Tell us about yourself — your background, your journey with Islamic knowledge, and what drives you to give khutbahs." required></textarea>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Why do you want to join Manarah? <span class="req">*</span></label>
+              <textarea name="why" rows="3" placeholder="What draws you to this platform and serving your community through Jumu'ah?" required></textarea>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="form-meta">We'll be in touch within a week, in shā' Allāh.</div>
+          <button class="submit-btn" type="submit">Submit Application <span class="arrow">→</span></button>
+        </div>
+
+        <div class="disclaimer">
+          <strong>Privacy & Review Process</strong>
+          Your application will be reviewed by the Manarah team. We will contact your teacher reference before approving your listing. Your personal contact details will never be shared publicly — only your profile information will appear on the site.
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>Manarah</h3>
+        <p>A directory of trusted student khateebs, helping MSAs and high schools host meaningful Jumu'ahs across Canada.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="browse.html">All Khateebs</a>
+        <a href="index.html#how">How It Works</a>
+        <a href="index.html#verse">Mission</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="mailto:salam@manarah.org">salam@manarah.org</a>
+        <a href="apply-khateeb.html">Apply as a Khateeb</a>
+        <a href="apply-vetter.html">For Teachers / Vetting</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Manarah — Built with intention.</div>
+      <div><span class="ar">بسم الله الرحمن الرحيم</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById('applyForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+    form.querySelectorAll('input[required], select[required], textarea[required]').forEach(f => {
+      const wrap = f.closest('.field');
+      const err = wrap && wrap.querySelector('.err-msg');
+      let bad = !f.value.trim();
+      if (f.type === 'email' && f.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value)) bad = true;
+      if (bad) { wrap.classList.add('error'); if (err) err.hidden = false; valid = false; }
+      else { wrap.classList.remove('error'); if (err) err.hidden = true; }
+    });
+    if (!valid) {
+      const first = form.querySelector('.field.error input, .field.error select, .field.error textarea');
+      if (first) first.focus();
+      return;
+    }
+    const ref = 'KH-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+    form.innerHTML = `
+      <div class="success-state">
+        <div class="success-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>JazākAllāhu khayran</h3>
+        <p>Your application has been received. We'll review it and reach out to your teacher reference. Expect to hear back within a week, in shā' Allāh.</p>
+        <div class="ref-num">Application Ref · ${ref}</div>
+      </div>`;
+  });
+  form.querySelectorAll('input, select, textarea').forEach(f => {
+    f.addEventListener('input', () => {
+      const wrap = f.closest('.field');
+      if (wrap && wrap.classList.contains('error')) {
+        wrap.classList.remove('error');
+        const err = wrap.querySelector('.err-msg');
+        if (err) err.hidden = true;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
