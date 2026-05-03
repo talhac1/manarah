@@ -1,0 +1,572 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Apply as a Vetter — Manarah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .apply-header {
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 0%, #4a6b58, transparent 60%),
+      linear-gradient(180deg, #3d6149 0%, #2d4f3a 100%);
+    color: #f4ede0;
+    padding: 0 0 64px;
+  }
+  .apply-hero-content {
+    padding: 48px 0 0;
+    text-align: center;
+    position: relative; z-index: 2;
+  }
+  .apply-hero-content .ornament { justify-content: center; margin-bottom: 20px; color: rgba(251,248,243,0.3); }
+  .apply-eyebrow {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(251,248,243,0.65);
+    margin-bottom: 12px;
+  }
+  .apply-hero-content h1 {
+    font-size: clamp(40px, 6vw, 76px);
+    color: #fbf8f3;
+    margin: 0 0 18px;
+    font-weight: 500;
+    line-height: 1.05;
+  }
+  .apply-hero-content h1 em { color: rgba(180,220,195,0.9); font-style: italic; font-weight: 400; }
+  .apply-hero-content p {
+    max-width: 560px;
+    margin: 0 auto;
+    color: rgba(251,248,243,0.72);
+    font-size: 17px;
+    line-height: 1.65;
+  }
+
+  /* ---------- FORM BODY ---------- */
+  .apply-body {
+    padding: 80px 0 100px;
+  }
+  .apply-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  @media (max-width: 860px) { .apply-layout { grid-template-columns: 1fr; gap: 40px; } }
+
+  .apply-sidebar {}
+  .sidebar-block {
+    background: var(--paper-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px 28px 22px;
+    margin-bottom: 20px;
+  }
+  .sidebar-block h3 {
+    font-size: 22px;
+    font-style: italic;
+    color: var(--green);
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .sidebar-block p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0 0 10px;
+  }
+  .sidebar-block p:last-child { margin-bottom: 0; }
+  .criteria-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .criteria-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .criteria-list li::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+    margin-top: 6px;
+  }
+  .role-explainer {
+    display: flex; flex-direction: column; gap: 14px;
+    margin-top: 4px;
+  }
+  .role-item {
+    padding: 14px 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+  }
+  .role-item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 17px;
+    color: var(--green);
+    margin-bottom: 4px;
+  }
+  .role-item p { font-size: 13px; color: var(--muted); margin: 0; }
+
+  .apply-form-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 48px;
+    box-shadow: 0 10px 40px rgba(45,90,61,0.06);
+  }
+  @media (max-width: 600px) { .apply-form-card { padding: 28px; } }
+
+  .form-section {
+    margin-bottom: 40px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--line);
+  }
+  .form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .form-section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-style: italic;
+    color: var(--green);
+    margin: 0 0 6px;
+    font-weight: 500;
+  }
+  .form-section-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin: 0 0 24px;
+    font-style: italic;
+  }
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+
+  .radio-group {
+    display: flex; flex-direction: column; gap: 10px;
+    margin-top: 8px;
+  }
+  .radio-card {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+  }
+  .radio-card input[type="radio"] { display: none; }
+  .radio-card:has(input:checked) {
+    border-color: var(--green);
+    background: rgba(45,90,61,0.05);
+  }
+  .radio-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    flex-shrink: 0;
+    margin-top: 2px;
+    transition: border-color .15s;
+    position: relative;
+  }
+  .radio-card:has(input:checked) .radio-dot {
+    border-color: var(--green);
+    background: var(--green);
+  }
+  .radio-card:has(input:checked) .radio-dot::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #fff;
+  }
+  .radio-label { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 3px; }
+  .radio-desc { font-size: 13px; color: var(--muted); }
+
+  .form-actions {
+    margin-top: 36px;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .submit-btn {
+    background: var(--green);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 15px 32px;
+    border: none;
+    cursor: pointer;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 12px;
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .submit-btn:hover { background: #2d4f3a; transform: translateY(-1px); box-shadow: 0 12px 28px rgba(45,90,61,0.25); }
+  .submit-btn .arrow { transition: transform .2s; }
+  .submit-btn:hover .arrow { transform: translateX(3px); }
+  .form-meta { font-size: 13px; color: var(--muted); font-style: italic; }
+
+  .disclaimer {
+    margin-top: 28px;
+    padding: 20px 24px;
+    background: rgba(45,90,61,0.07);
+    border-left: 3px solid var(--green);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    font-style: italic;
+  }
+  .disclaimer strong {
+    display: block;
+    font-style: normal;
+    color: var(--green);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .success-state { text-align: center; padding: 40px 8px; }
+  .success-icon {
+    width: 72px; height: 72px;
+    background: rgba(45,90,61,0.1);
+    color: var(--green);
+    border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .success-state h3 { font-size: 32px; color: var(--green); margin: 0 0 10px; font-style: italic; font-weight: 500; }
+  .success-state p { color: var(--muted); max-width: 480px; margin: 0 auto 24px; line-height: 1.6; }
+  .ref-num {
+    display: inline-block;
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    background: var(--paper-2);
+    color: var(--green);
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== HEADER ============== -->
+<header class="apply-header">
+  <nav class="topnav on-dark">
+    <a class="brand-mark" href="index.html">
+      <span class="seal logo-seal">
+        <img src="assets/manarah-logo.png" alt="Manarah logo" />
+      </span>
+      Manarah
+    </a>
+    <div class="topnav-links">
+      <a href="browse.html">Khateebs</a>
+      <a href="index.html#how">How It Works</a>
+      <a href="index.html#verse">Mission</a>
+      <a href="mailto:salam@manarah.org">Contact</a>
+    </div>
+  </nav>
+  <div class="container apply-hero-content">
+    <div class="ornament"><span class="line"></span><span class="star"></span><span class="line"></span></div>
+    <div class="apply-eyebrow">For teachers & scholars —</div>
+    <h1>Become a <em>Vetter</em></h1>
+    <p>Manarah relies on qualified teachers and imams to vouch for the khateebs on our platform. If you teach students of knowledge and are willing to review and endorse those in your care, we need you.</p>
+  </div>
+</header>
+
+<!-- ============== FORM BODY ============== -->
+<section class="apply-body">
+  <div class="container apply-layout">
+
+    <!-- Sidebar -->
+    <aside class="apply-sidebar">
+      <div class="sidebar-block">
+        <h3>What vetters do</h3>
+        <div class="role-explainer">
+          <div class="role-item">
+            <div class="role-item-title">Review applications</div>
+            <p>When a student you teach applies to join Manarah, we'll reach out to you to confirm their credentials and character.</p>
+          </div>
+          <div class="role-item">
+            <div class="role-item-title">Provide a testimonial</div>
+            <p>A short quote from you appears on the khateeb's profile page, giving communities confidence in who they're inviting.</p>
+          </div>
+          <div class="role-item">
+            <div class="role-item-title">Stay informed</div>
+            <p>You'll be notified when a student you've endorsed receives bookings, and can flag any concerns at any time.</p>
+          </div>
+        </div>
+      </div>
+      <div class="sidebar-block">
+        <h3>Who we're looking for</h3>
+        <ul class="criteria-list">
+          <li>Qualified scholar, ustadh, or imam with recognized credentials</li>
+          <li>Currently teaching or mentoring students of Islamic knowledge</li>
+          <li>Willing to be contacted for reference checks</li>
+          <li>Based in Canada or familiar with the Canadian Muslim community context</li>
+        </ul>
+      </div>
+      <div class="sidebar-block">
+        <h3>Questions?</h3>
+        <p>Reach us at <a href="mailto:salam@manarah.org" style="color:var(--green);">salam@manarah.org</a></p>
+      </div>
+    </aside>
+
+    <!-- Form -->
+    <div class="apply-form-card">
+      <form id="applyForm" novalidate>
+
+        <div class="form-section">
+          <div class="form-section-title">Your details</div>
+          <div class="form-section-sub">Basic information so we can reach you and display your credentials correctly.</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" name="name" placeholder="e.g. Sh. Abdullah Hassan" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Title / Honorific <span class="opt">/ optional</span></label>
+              <select name="title">
+                <option value="">Select if applicable…</option>
+                <option>Shaykh</option>
+                <option>Ustadh / Ustadha</option>
+                <option>Imam</option>
+                <option>Dr.</option>
+                <option>Hafidh / Hafidha</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Email <span class="req">*</span></label>
+              <input type="email" name="email" placeholder="you@institute.org" required />
+              <span class="err-msg" hidden>Enter a valid email.</span>
+            </div>
+            <div class="field">
+              <label>Phone Number <span class="req">*</span></label>
+              <input type="tel" name="phone" placeholder="(905) 555 — 0142" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Institution / Masjid <span class="req">*</span></label>
+              <input type="text" name="institution" placeholder="e.g. Taqwa Institute, Hamilton Masjid" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>City <span class="req">*</span></label>
+              <select name="city" required>
+                <option value="">Select your city…</option>
+                <option>Hamilton</option>
+                <option>Toronto</option>
+                <option>Mississauga</option>
+                <option>Waterloo</option>
+                <option>Ottawa</option>
+                <option>London</option>
+                <option>Other Ontario</option>
+                <option>Outside Ontario</option>
+              </select>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Website or Profile <span class="opt">/ optional</span></label>
+              <input type="url" name="website" placeholder="https://institute.org/about" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Credentials & background</div>
+          <div class="form-section-sub">Help us understand your qualifications and teaching context.</div>
+          <div class="form-grid">
+            <div class="field full">
+              <label>Qualifications & Credentials <span class="req">*</span></label>
+              <textarea name="credentials" rows="3" placeholder="e.g. Ijazah in Hadith from Darul Uloom Karachi, M.A. Islamic Studies from UToronto, teaching fiqh and tajweed for 8 years" required></textarea>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Approx. Number of Students Currently Teaching <span class="req">*</span></label>
+              <select name="studentCount" required>
+                <option value="">Select range…</option>
+                <option>1–5</option>
+                <option>6–15</option>
+                <option>16–30</option>
+                <option>30+</option>
+              </select>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field">
+              <label>Subjects You Teach <span class="req">*</span></label>
+              <input type="text" name="subjects" placeholder="e.g. Fiqh, Tajweed, Aqeedah" required />
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Your role on Manarah</div>
+          <div class="form-section-sub">How would you like to be involved?</div>
+          <div class="field">
+            <label>Primary involvement <span class="req">*</span></label>
+            <div class="radio-group">
+              <label class="radio-card">
+                <input type="radio" name="role" value="vouch" required />
+                <div class="radio-dot"></div>
+                <div>
+                  <div class="radio-label">Vouch for my students</div>
+                  <div class="radio-desc">I have students who may apply, and I'm willing to be their reference.</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="role" value="review" />
+                <div class="radio-dot"></div>
+                <div>
+                  <div class="radio-label">Review applications broadly</div>
+                  <div class="radio-desc">I'm willing to assess khateeb applications beyond just my own students.</div>
+                </div>
+              </label>
+              <label class="radio-card">
+                <input type="radio" name="role" value="both" />
+                <div class="radio-dot"></div>
+                <div>
+                  <div class="radio-label">Both</div>
+                  <div class="radio-desc">I'd like to vouch for my students and help review the broader applicant pool.</div>
+                </div>
+              </label>
+            </div>
+            <span class="err-msg" hidden>Please select an option.</span>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title">Additional context</div>
+          <div class="form-section-sub">In your own words.</div>
+          <div class="form-grid">
+            <div class="field full">
+              <label>Why do you want to be involved with Manarah? <span class="req">*</span></label>
+              <textarea name="why" rows="4" placeholder="Tell us what draws you to this work and how you see your role in supporting the next generation of khateebs." required></textarea>
+              <span class="err-msg" hidden>Required field.</span>
+            </div>
+            <div class="field full">
+              <label>Students you'd like to nominate or are expecting to vouch for <span class="opt">/ optional</span></label>
+              <textarea name="students" rows="3" placeholder="Names of any students you teach who you expect to apply or whom you'd encourage to apply."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <div class="form-meta">We'll be in touch within a week, in shā' Allāh.</div>
+          <button class="submit-btn" type="submit">Submit Application <span class="arrow">→</span></button>
+        </div>
+
+        <div class="disclaimer">
+          <strong>Confidentiality & Trust</strong>
+          Your contact details are kept private and used only for vetting communication. Your name and institution will appear on the profiles of khateebs you endorse. You can withdraw your endorsement at any time by contacting us.
+        </div>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FOOTER ============== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <h3>Manarah</h3>
+        <p>A directory of trusted student khateebs, helping MSAs and high schools host meaningful Jumu'ahs across Canada.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Explore</h4>
+        <a href="browse.html">All Khateebs</a>
+        <a href="index.html#how">How It Works</a>
+        <a href="index.html#verse">Mission</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="mailto:salam@manarah.org">salam@manarah.org</a>
+        <a href="apply-khateeb.html">Apply as a Khateeb</a>
+        <a href="apply-vetter.html">For Teachers / Vetting</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2026 Manarah — Built with intention.</div>
+      <div><span class="ar">بسم الله الرحمن الرحيم</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const form = document.getElementById('applyForm');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let valid = true;
+
+    form.querySelectorAll('input[required], select[required], textarea[required]').forEach(f => {
+      const wrap = f.closest('.field') || f.closest('.form-section');
+      const err = wrap && wrap.querySelector('.err-msg');
+      let bad = !f.value.trim();
+      if (f.type === 'email' && f.value && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.value)) bad = true;
+      if (bad) { wrap && wrap.classList.add('error'); if (err) err.hidden = false; valid = false; }
+      else { wrap && wrap.classList.remove('error'); if (err) err.hidden = true; }
+    });
+
+    // Radio group validation
+    const roleWrap = form.querySelector('[name="role"]').closest('.field');
+    const roleErr = roleWrap.querySelector('.err-msg');
+    if (!form.querySelector('[name="role"]:checked')) {
+      roleWrap.classList.add('error');
+      roleErr.hidden = false;
+      valid = false;
+    } else {
+      roleWrap.classList.remove('error');
+      roleErr.hidden = true;
+    }
+
+    if (!valid) {
+      const first = form.querySelector('.field.error input, .field.error select, .field.error textarea');
+      if (first) first.focus();
+      return;
+    }
+    const ref = 'VT-' + Math.random().toString(36).slice(2, 7).toUpperCase();
+    form.innerHTML = `
+      <div class="success-state">
+        <div class="success-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>JazākAllāhu khayran</h3>
+        <p>Your application has been received. The Manarah team will review it and reach out to confirm your role, in shā' Allāh. We're grateful for your willingness to serve the community in this way.</p>
+        <div class="ref-num">Application Ref · ${ref}</div>
+      </div>`;
+  });
+
+  form.querySelectorAll('input, select, textarea').forEach(f => {
+    f.addEventListener('input', () => {
+      const wrap = f.closest('.field');
+      if (wrap && wrap.classList.contains('error')) {
+        wrap.classList.remove('error');
+        const err = wrap.querySelector('.err-msg');
+        if (err) err.hidden = true;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
