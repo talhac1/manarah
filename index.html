@@ -20,7 +20,7 @@
       linear-gradient(180deg, #7a6f93 0%, #6b6184 100%);
     color: #f4ede0;
     overflow: hidden;
-    padding: 0 0 100px;
+    padding: 0 0 80px;
   }
   .hero-content {
     position: relative; z-index: 2;
@@ -81,222 +81,6 @@
     border-radius: 280px 280px 0 0;
     border-color: rgba(168,156,200,0.1);
   }
-
-  /* Filter bar */
-  .filter-bar {
-    position: relative; z-index: 3;
-    max-width: 760px;
-    margin: 50px auto 0;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 18px 22px;
-    display: grid;
-    grid-template-columns: 1.3fr 1fr auto;
-    gap: 14px;
-    align-items: end;
-    box-shadow: 0 30px 60px rgba(26,23,38,0.35);
-  }
-  @media (max-width: 720px) { .filter-bar { grid-template-columns: 1fr; padding: 16px; } }
-  .filter-bar .field { gap: 4px; }
-  .filter-bar .field label {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 14px;
-    color: var(--lav-deep);
-    font-weight: 500;
-  }
-  .filter-bar .field input,
-  .filter-bar .field select {
-    border: none;
-    border-bottom: 1px solid var(--line);
-    border-radius: 0;
-    background: transparent;
-    padding: 8px 2px;
-    font-size: 15px;
-  }
-  .filter-bar .field input:focus,
-  .filter-bar .field select:focus {
-    box-shadow: none;
-    border-color: var(--lav-deep);
-  }
-  .filter-bar .btn { padding: 12px 22px; font-size: 14px; }
-
-  /* ---------- DIRECTORY ---------- */
-  .directory {
-    padding: 100px 0 80px;
-    position: relative;
-  }
-  .dir-head {
-    text-align: center;
-    margin-bottom: 48px;
-  }
-  .dir-head .ornament { justify-content: center; margin-bottom: 18px; }
-  .dir-head h2 {
-    font-size: clamp(36px, 5vw, 56px);
-    margin: 0 0 10px;
-    color: var(--ink);
-    font-style: italic;
-  }
-  .dir-head p {
-    max-width: 560px;
-    margin: 0 auto;
-    color: var(--muted);
-  }
-
-  /* Filter chips */
-  .chips {
-    display: flex; flex-wrap: wrap; gap: 8px;
-    justify-content: center;
-    margin-bottom: 40px;
-  }
-  .chip-btn {
-    background: transparent;
-    border: 1px solid var(--line);
-    color: var(--ink-soft);
-    padding: 8px 18px;
-    border-radius: 999px;
-    font-family: 'Inter', sans-serif;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all .2s;
-  }
-  .chip-btn:hover { border-color: var(--lav); color: var(--lav-deep); }
-  .chip-btn.active {
-    background: var(--lav-deep);
-    color: #fff;
-    border-color: var(--lav-deep);
-  }
-
-  .dir-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 28px;
-  }
-  .khateeb-card {
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: 16px;
-    overflow: hidden;
-    text-decoration: none;
-    color: inherit;
-    display: flex; flex-direction: column;
-    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-    position: relative;
-  }
-  .khateeb-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 50px rgba(107,90,158,0.18);
-    border-color: var(--lav-mid);
-  }
-  .card-photo {
-    aspect-ratio: 4/3.4;
-    background: linear-gradient(135deg, var(--lav-soft), #f5f0e6);
-    position: relative;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .card-photo .initials {
-    font-family: 'Cormorant Garamond', serif;
-    font-style: italic;
-    font-size: 84px;
-    color: var(--lav);
-    opacity: 0.55;
-  }
-  .card-photo .photo-tag {
-    position: absolute;
-    bottom: 14px; left: 14px;
-    background: rgba(26,23,38,0.85);
-    color: #fbf8f3;
-    font-size: 11px;
-    padding: 5px 10px;
-    border-radius: 999px;
-    font-style: italic;
-  }
-  .card-photo .availability {
-    position: absolute;
-    top: 14px; right: 14px;
-    background: rgba(45,90,61,0.92);
-    color: #fbf8f3;
-    font-size: 11px;
-    padding: 5px 12px;
-    border-radius: 999px;
-    display: flex; align-items: center; gap: 6px;
-  }
-  .card-photo .availability.limited { background: rgba(184,151,92,0.95); }
-  .availability .dot { width: 6px; height: 6px; background: #fbf8f3; border-radius: 50%; }
-
-  .card-body { padding: 24px 26px 22px; }
-  .card-body h3 {
-    font-size: 26px;
-    margin: 0 0 4px;
-    color: var(--ink);
-    font-weight: 600;
-  }
-  .card-role {
-    color: var(--lav-deep);
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 17px;
-    margin-bottom: 16px;
-  }
-  .card-meta {
-    display: flex; flex-wrap: wrap; gap: 8px 16px;
-    font-size: 14px;
-    color: var(--muted);
-    padding: 14px 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 16px;
-  }
-  .card-meta span {
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .card-meta svg { width: 14px; height: 14px; opacity: 0.55; }
-  .card-tags {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    margin-bottom: 18px;
-  }
-  .role-tag {
-    padding: 5px 14px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    display: inline-flex; align-items: center; gap: 6px;
-  }
-  .role-tag::before {
-    content: '';
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: currentColor;
-  }
-  .role-khateeb {
-    background: var(--lav-soft);
-    color: var(--lav-deep);
-    border: 1px solid rgba(107,90,158,0.18);
-  }
-  .role-qari {
-    background: rgba(45,90,61,0.08);
-    color: var(--green);
-    border: 1px solid rgba(45,90,61,0.18);
-  }
-  .card-tag {
-    background: var(--lav-soft);
-    color: var(--lav-deep);
-    padding: 4px 12px;
-    border-radius: 999px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  .card-cta {
-    display: flex; align-items: center; justify-content: space-between;
-    color: var(--lav-deep);
-    font-weight: 500;
-    font-size: 15px;
-  }
-  .card-cta .arrow { transition: transform .2s; }
-  .khateeb-card:hover .card-cta .arrow { transform: translateX(4px); }
 
   /* ---------- HOW IT WORKS ---------- */
   .how {
@@ -378,7 +162,7 @@
       Manarah
     </a>
     <div class="topnav-links">
-      <a href="#directory">Khateebs</a>
+      <a href="browse.html">Khateebs</a>
       <a href="#how">How It Works</a>
       <a href="#verse">Mission</a>
       <a href="mailto:salam@manarah.org">Contact</a>
@@ -402,115 +186,7 @@
     </div>
   </div>
 
-  <!-- Quick filter bar -->
-  <form class="filter-bar" id="filterBar" onsubmit="return scrollToDir(event)">
-    <div class="field">
-      <label for="f-date">Jumu'ah Date</label>
-      <input type="date" id="f-date" />
-    </div>
-    <div class="field">
-      <label for="f-city">City</label>
-      <select id="f-city">
-        <option value="">Any city</option>
-        <option>Hamilton</option>
-        <option>Toronto</option>
-        <option>Mississauga</option>
-        <option>Waterloo</option>
-        <option>Ottawa</option>
-      </select>
-    </div>
-    <button class="btn btn-primary" type="submit">Search <span class="arrow">→</span></button>
-  </form>
 </header>
-
-<!-- ============== DIRECTORY ============== -->
-<section class="directory" id="directory">
-  <div class="container">
-    <div class="dir-head">
-      <div class="ornament"><span class="line"></span><span class="star"></span><span class="line"></span></div>
-      <h2>Our Khateebs</h2>
-      <p>Each khateeb is a practicing student of knowledge, vetted by their teachers, with a history of delivering Jumu'ah to youth audiences.</p>
-    </div>
-
-    <div class="chips" id="chips">
-      <button class="chip-btn active" data-filter="all">All</button>
-      <button class="chip-btn" data-filter="khateeb">Khateebs</button>
-      <button class="chip-btn" data-filter="qari">Qaris</button>
-    </div>
-
-    <div class="dir-grid" id="dirGrid">
-
-      <!-- ZAYAAN -->
-      <a class="khateeb-card" href="khateebs/zayaan.html" data-tags="khateeb qari">
-        <div class="card-photo">
-          <span class="initials">ZB</span>
-          <span class="photo-tag">Photo of Br. Zayaan</span>
-          <span class="availability"><span class="dot"></span> Available</span>
-        </div>
-        <div class="card-body">
-          <h3>Br. Zayaan Backus</h3>
-          <div class="card-role">McMaster MSA · Roots Academy</div>
-          <div class="card-meta">
-            <span>📍 Hamilton, ON</span>
-            <span>· Age 21</span>
-            <span>· 12+ khutbahs</span>
-          </div>
-          <div class="card-tags">
-            <span class="role-tag role-khateeb">Khateeb</span>
-            <span class="role-tag role-qari">Qari</span>
-          </div>
-          <div class="card-cta">View profile <span class="arrow">→</span></div>
-        </div>
-      </a>
-
-      <!-- YUSUF -->
-      <a class="khateeb-card" href="khateebs/yusuf.html" data-tags="khateeb qari">
-        <div class="card-photo">
-          <span class="initials">YR</span>
-          <span class="photo-tag">Photo of Br. Yusuf</span>
-          <span class="availability"><span class="dot"></span> Available</span>
-        </div>
-        <div class="card-body">
-          <h3>Br. Yusuf Rahman</h3>
-          <div class="card-role">U of T MSA · Hifdh Graduate</div>
-          <div class="card-meta">
-            <span>📍 Toronto, ON</span>
-            <span>· Age 23</span>
-            <span>· 30+ khutbahs</span>
-          </div>
-          <div class="card-tags">
-            <span class="role-tag role-khateeb">Khateeb</span>
-            <span class="role-tag role-qari">Qari</span>
-          </div>
-          <div class="card-cta">View profile <span class="arrow">→</span></div>
-        </div>
-      </a>
-
-      <!-- IDRIS -->
-      <a class="khateeb-card" href="khateebs/idris.html" data-tags="khateeb">
-        <div class="card-photo">
-          <span class="initials">IM</span>
-          <span class="photo-tag">Photo of Br. Idris</span>
-          <span class="availability limited"><span class="dot"></span> Limited</span>
-        </div>
-        <div class="card-body">
-          <h3>Br. Idris Mohammed</h3>
-          <div class="card-role">Waterloo MSA · Youth Worker</div>
-          <div class="card-meta">
-            <span>📍 Waterloo, ON</span>
-            <span>· Age 22</span>
-            <span>· 20+ khutbahs</span>
-          </div>
-          <div class="card-tags">
-            <span class="role-tag role-khateeb">Khateeb</span>
-          </div>
-          <div class="card-cta">View profile <span class="arrow">→</span></div>
-        </div>
-      </a>
-
-    </div>
-  </div>
-</section>
 
 <!-- ============== HOW IT WORKS ============== -->
 <section class="how" id="how">
@@ -560,7 +236,7 @@
       </div>
       <div class="footer-col">
         <h4>Explore</h4>
-        <a href="#directory">All Khateebs</a>
+        <a href="browse.html">All Khateebs</a>
         <a href="#how">How It Works</a>
         <a href="#verse">Mission</a>
       </div>
@@ -578,29 +254,6 @@
   </div>
 </footer>
 
-<script>
-  // Chip filtering
-  const chips = document.querySelectorAll('.chip-btn');
-  const cards = document.querySelectorAll('.khateeb-card');
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      const f = chip.dataset.filter;
-      cards.forEach(card => {
-        const tags = (card.dataset.tags || '').split(' ');
-        const show = f === 'all' || tags.includes(f);
-        card.style.display = show ? '' : 'none';
-      });
-    });
-  });
-
-  function scrollToDir(e) {
-    e.preventDefault();
-    document.getElementById('directory').scrollIntoView({ behavior: 'smooth' });
-    return false;
-  }
-</script>
 
 <!-- Tweaks mount -->
 <div id="tweaks-root"></div>
