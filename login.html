@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Manarah — Enter Password</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 35%, #897ea3, transparent 70%),
+      linear-gradient(180deg, #7a6f93 0%, #6b6184 100%);
+  }
+
+  /* arch decorations */
+  .arch { position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+    width: min(600px, 88vw); height: 480px;
+    border: 1px solid rgba(168,156,200,0.18);
+    border-radius: 300px 300px 0 0; pointer-events: none; }
+  .arch.inner { top: 100px; width: min(460px, 70vw); height: 380px;
+    border-radius: 230px 230px 0 0; border-color: rgba(168,156,200,0.1); }
+
+  .card {
+    position: relative; z-index: 2;
+    background: #fbf8f3;
+    border-radius: 20px;
+    padding: 48px 44px 44px;
+    width: min(420px, 92vw);
+    box-shadow: 0 24px 80px rgba(30,20,60,0.28);
+    text-align: center;
+  }
+
+  .logo {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border: 2px solid rgba(93,83,122,0.2);
+  }
+  .logo img { width: 100%; height: 100%; object-fit: cover; }
+
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 500;
+    color: #1a1726;
+    margin-bottom: 6px;
+  }
+  .sub {
+    font-size: 14px;
+    color: #8a8398;
+    margin-bottom: 36px;
+    line-height: 1.5;
+  }
+
+  .field { text-align: left; margin-bottom: 22px; }
+  label { display: block; font-size: 12px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    color: #5d537a; margin-bottom: 8px; }
+  input[type="password"] {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid #ddd8ee;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: #1a1726;
+    background: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+    letter-spacing: 0.12em;
+  }
+  input[type="password"]:focus { border-color: #5d537a; }
+  input[type="password"].error { border-color: #c0392b; }
+
+  .err-msg {
+    font-size: 13px;
+    color: #c0392b;
+    margin-top: 8px;
+    display: none;
+  }
+  .err-msg.visible { display: block; }
+
+  .btn {
+    width: 100%;
+    padding: 14px;
+    background: #5d537a;
+    color: #f4ede0;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.02em;
+  }
+  .btn:hover { background: #4e4568; }
+  .btn:active { transform: scale(0.98); }
+
+  .footer-note {
+    margin-top: 28px;
+    font-size: 12px;
+    color: #b0a8c4;
+  }
+  .ar { font-family: 'Cormorant Garamond', serif; font-size: 15px; }
+</style>
+</head>
+<body>
+
+<div class="arch"></div>
+<div class="arch inner"></div>
+
+<div class="card">
+  <div class="logo">
+    <img src="assets/manarah-logo.png" alt="Manarah" />
+  </div>
+  <h1>Manarah</h1>
+  <p class="sub">Enter the password to access the platform.</p>
+
+  <form id="loginForm" novalidate>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="pw" placeholder="••••••••••" autocomplete="current-password" />
+      <div class="err-msg" id="errMsg">Incorrect password. Please try again.</div>
+    </div>
+    <button class="btn" type="submit">Enter <span>→</span></button>
+  </form>
+
+  <div class="footer-note"><span class="ar">بسم الله الرحمن الرحيم</span></div>
+</div>
+
+<script>
+  // Redirect back to wherever the user came from (or default to index)
+  const redirect = (function () {
+    const p = new URLSearchParams(location.search).get('next');
+    return (p && p.startsWith('/')) ? p : 'index.html';
+  })();
+
+  // If already authenticated, skip login
+  if (sessionStorage.getItem('manarah_auth') === '1') {
+    location.replace(redirect);
+  }
+
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    const pw = document.getElementById('pw');
+    const err = document.getElementById('errMsg');
+    if (pw.value === 'MANARAH001') {
+      sessionStorage.setItem('manarah_auth', '1');
+      location.replace(redirect);
+    } else {
+      pw.classList.add('error');
+      err.classList.add('visible');
+      pw.value = '';
+      pw.focus();
+    }
+  });
+
+  document.getElementById('pw').addEventListener('input', function () {
+    this.classList.remove('error');
+    document.getElementById('errMsg').classList.remove('visible');
+  });
+</script>
+
+</body>
+</html>
