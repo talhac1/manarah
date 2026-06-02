@@ -195,9 +195,9 @@ function handleBooking(d) {
            Confirm this booking &rarr;
         </a>
       </p>
-      <p style="color:#8a8398;font-size:13px;">Confirming will create a calendar
-      event and send invites to ${esc(d.contact || 'the requester')} and the
-      organization inbox automatically.</p>
+      <p style="color:#8a8398;font-size:13px;">Confirming will create the calendar
+      event and send an invitation with the date &amp; time to you,
+      ${esc(d.contact || 'the requester')}, and the organization inbox — automatically.</p>
     `)
   });
 
@@ -235,7 +235,10 @@ function handleConfirm(p) {
   const start = parseDateTime(dateStr, time);
   const end = new Date(start.getTime() + EVENT_DURATION_MIN * 60000);
 
-  const guests = [reqEmail, ORG_EMAIL].filter(Boolean).join(',');
+  // Everyone goes on the invite: the requester, the khateeb, and the org inbox.
+  // Each receives a Google Calendar invitation email with the date & time.
+  const khateebEmail = khateebEmailByName(khateebName);
+  const guests = [reqEmail, khateebEmail, ORG_EMAIL].filter(Boolean).join(',');
   const event = cal.createEvent(
     `Jumu'ah Khutbah — ${school} (${khateebName})`,
     start, end,
@@ -273,6 +276,28 @@ function handleConfirm(p) {
     });
   }
 
+  // Confirmation email to the khateeb (he confirmed — send his copy + invite)
+  if (khateebEmail) {
+    MailApp.sendEmail({
+      to: khateebEmail,
+      subject: `You're confirmed: Jumu'ah at ${school} — ${ref}`,
+      htmlBody: emailShell(`
+        <p>As-salāmu ʿalaykum ${esc(khateebName)},</p>
+        <p>JazākAllāhu khayran — you've confirmed this khutbah. A calendar
+        invitation has been sent to you, the organizer, and the organization inbox.</p>
+        <table style="margin:18px 0;font-size:15px;">
+          <tr><td style="color:#8a8398;padding:4px 16px 4px 0;">When</td><td>${esc(prettyDate)}</td></tr>
+          <tr><td style="color:#8a8398;padding:4px 16px 4px 0;">Where</td><td>${esc(location)}</td></tr>
+          <tr><td style="color:#8a8398;padding:4px 16px 4px 0;">School / MSA</td><td>${esc(school)}</td></tr>
+          <tr><td style="color:#8a8398;padding:4px 16px 4px 0;">Organizer</td><td>${esc(contact)} · ${esc(reqEmail)}</td></tr>
+          <tr><td style="color:#8a8398;padding:4px 16px 4px 0;">Topic</td><td>${esc(topic || 'Khateeb’s choice')}</td></tr>
+          <tr><td style="color:#8a8398;padding:4px 16px 4px 0;">Reference</td><td>${esc(ref)}</td></tr>
+        </table>
+        <p style="color:#8a8398;">— Manarah</p>
+      `)
+    });
+  }
+
   // Confirmation email to the org inbox
   MailApp.sendEmail({
     to: ORG_EMAIL,
@@ -291,8 +316,8 @@ function handleConfirm(p) {
   });
 
   return htmlPage('Booking confirmed ✓',
-    `<b>${esc(ref)}</b> is confirmed. Calendar invites have been sent to
-     ${esc(contact)} and the organization inbox.`);
+    `<b>${esc(ref)}</b> is confirmed. Calendar invites with the date & time have
+     been sent to ${esc(contact)}, ${esc(khateebName)}, and the organization inbox.`);
 }
 
 // ============================ HELPERS ============================
@@ -313,6 +338,13 @@ function getSheet() {
     sh.setFrozenRows(1);
   }
   return sh;
+}
+
+function khateebEmailByName(name) {
+  for (var k in KHATEEBS) {
+    if (KHATEEBS[k].name === name) return KHATEEBS[k].email;
+  }
+  return '';
 }
 
 function findRow(sheet, ref) {
