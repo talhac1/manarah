@@ -361,7 +361,7 @@ function parseDateTime(dateStr, time) {
     dateStr = Utilities.formatDate(dateStr, Session.getScriptTimeZone(), 'yyyy-MM-dd');
   }
   const d = (String(dateStr || '')).split('-').map(Number);
-  const t = (time || DEFAULT_TIME).split(':').map(Number);
+  const t = (String(time || DEFAULT_TIME)).split(':').map(Number);
   if (d.length < 3 || isNaN(d[0])) {
     const fallback = new Date(); fallback.setHours(t[0] || 13, t[1] || 15, 0, 0);
     return fallback;
