@@ -356,8 +356,11 @@ function findRow(sheet, ref) {
 }
 
 function parseDateTime(dateStr, time) {
-  // dateStr "YYYY-MM-DD", time "HH:MM"
-  const d = (dateStr || '').split('-').map(Number);
+  // Sheet may return a Date object instead of a string — normalise it first.
+  if (dateStr instanceof Date) {
+    dateStr = Utilities.formatDate(dateStr, Session.getScriptTimeZone(), 'yyyy-MM-dd');
+  }
+  const d = (String(dateStr || '')).split('-').map(Number);
   const t = (time || DEFAULT_TIME).split(':').map(Number);
   if (d.length < 3 || isNaN(d[0])) {
     const fallback = new Date(); fallback.setHours(t[0] || 13, t[1] || 15, 0, 0);
