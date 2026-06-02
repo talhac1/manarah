@@ -60,17 +60,84 @@ const SHEET_NAME = 'Bookings';
 
 function doPost(e) {
   try {
-    const data = JSON.parse(e.postData.contents);
+    // Accept JSON body (the website) OR form-encoded params (fallback).
+    var data;
+    if (e && e.postData && e.postData.contents) {
+      try { data = JSON.parse(e.postData.contents); }
+      catch (_) { data = e.parameter || {}; }
+    } else {
+      data = (e && e.parameter) || {};
+    }
     return handleBooking(data);
   } catch (err) {
+    // Logged to the Apps Script "Executions" tab so failures are visible.
+    console.error('doPost failed: ' + err);
     return jsonOut({ ok: false, error: String(err) });
   }
 }
 
 function doGet(e) {
-  const action = (e.parameter.action || '').toLowerCase();
+  const action = ((e && e.parameter && e.parameter.action) || '').toLowerCase();
   if (action === 'confirm') return handleConfirm(e.parameter);
-  return htmlPage('Manarah', 'Booking service is running. ✓');
+  if (action === 'test')    return handleSelfTest();
+  return htmlPage('Manarah', 'Booking service is running. ✓<br><br>'
+    + '<a href="?action=test" style="color:#5d537a;">Run a self-test &rarr;</a>');
+}
+
+// ============================ SELF-TEST (open in a browser) ============================
+// Visit  <your /exec URL>?action=test  while signed into the owning Google account.
+// It checks email + calendar permissions and sends a real test email to ORG_EMAIL.
+function handleSelfTest() {
+  var lines = [];
+  var owner = '';
+  try { owner = Session.getEffectiveUser().getEmail(); } catch (e) {}
+  lines.push('Running as: <b>' + esc(owner || 'unknown') + '</b>');
+
+  // 1. Email permission + send
+  try {
+    var quota = MailApp.getRemainingDailyQuota();
+    MailApp.sendEmail({
+      to: ORG_EMAIL,
+      subject: 'Manarah self-test ✓',
+      htmlBody: emailShell('<p>This is a self-test from your booking backend. '
+        + 'If you can read this, <b>email sending works.</b></p>')
+    });
+    lines.push('✅ Email OK — test message sent to ORG_EMAIL: <b>' + esc(ORG_EMAIL)
+      + '</b> (remaining daily quota: ' + quota + ')');
+  } catch (err) {
+    lines.push('❌ EMAIL FAILED: ' + esc(String(err))
+      + '<br><span style="color:#8a8398">Usually means authorization wasn’t granted. '
+      + 'Run <b>runTest</b> once from the editor and click Allow.</span>');
+  }
+
+  // 2. Calendar permission
+  try {
+    var cal = (CALENDAR_ID === 'primary')
+      ? CalendarApp.getDefaultCalendar()
+      : CalendarApp.getCalendarById(CALENDAR_ID);
+    lines.push('✅ Calendar OK — using: <b>' + esc(cal.getName()) + '</b>');
+  } catch (err) {
+    lines.push('❌ CALENDAR FAILED: ' + esc(String(err)));
+  }
+
+  // 3. Placeholder-email check
+  var ph = Object.keys(KHATEEBS).filter(function (k) {
+    return /example\.com/.test(KHATEEBS[k].email);
+  });
+  if (ph.length) {
+    lines.push('⚠️ These khateebs still have placeholder emails (their '
+      + 'notifications go nowhere): <b>' + ph.join(', ') + '</b>. '
+      + 'Edit the KHATEEBS block and redeploy a NEW version.');
+  } else {
+    lines.push('✅ All khateeb emails are set.');
+  }
+
+  // 4. Secret check
+  if (/CHANGE-ME/.test(SECRET)) {
+    lines.push('⚠️ SECRET is still the default — change it to a random string.');
+  }
+
+  return htmlPage('Self-test results', lines.join('<br><br>'));
 }
 
 // ============================ BOOKING (on submit) ============================
