@@ -197,6 +197,11 @@
           <span class="err-msg" hidden>Pick a date.</span>
         </div>
         <div class="field">
+          <label>Jumu'ah Time <span class="req">*</span></label>
+          <input type="time" name="time" value="13:15" required />
+          <span class="err-msg" hidden>Pick a time.</span>
+        </div>
+        <div class="field">
           <label>Estimated Attendance <span class="req">*</span></label>
           <select name="attendance" required>
             <option value="">Select range…</option>
@@ -264,7 +269,16 @@
 </footer>
 
 <script>
+  // ===== Manarah booking automation =====
+  // Paste your deployed Google Apps Script Web App URL between the quotes.
+  // Until you do, the form still works and shows a confirmation (no email sent).
+  const BOOKING_ENDPOINT = "PASTE_YOUR_WEB_APP_URL_HERE";
+  const KHATEEB_KEY  = "idris";
+  const KHATEEB_NAME = "Br. Idris Mohammed";
+  const REF_PREFIX   = "IM-";
+
   const form = document.getElementById('bookingForm');
+
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     let valid = true;
@@ -282,18 +296,41 @@
       if (first) first.focus();
       return;
     }
-    const ref = 'IM-' + Math.random().toString(36).slice(2, 6).toUpperCase();
+
+    const ref = REF_PREFIX + Math.random().toString(36).slice(2, 6).toUpperCase();
+    const data = Object.fromEntries(new FormData(form).entries());
+    const payload = Object.assign({ ref, khateebKey: KHATEEB_KEY, khateebName: KHATEEB_NAME }, data);
+
+    const btn = form.querySelector('.submit-btn');
+    if (btn) { btn.disabled = true; btn.innerHTML = 'Sending\u2026'; }
+
+    const done = () => showSuccess(ref);
+
+    if (BOOKING_ENDPOINT && BOOKING_ENDPOINT.indexOf('PASTE_YOUR') === -1) {
+      fetch(BOOKING_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      }).then(done).catch(done);
+    } else {
+      done();
+    }
+  });
+
+  function showSuccess(ref) {
     form.innerHTML = `
       <div class="success-state">
         <div class="success-icon">
           <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         </div>
-        <h3>JazākAllāhu khayran</h3>
-        <p>Your request has been received. Br. Idris will be in touch within 24 hours, in shā' Allāh, to confirm availability and details. Please check your email — including the spam folder.</p>
-        <div class="ref-num">Reference · ${ref}</div>
+        <h3>Jaz\u0101kAll\u0101hu khayran</h3>
+        <p>Your request has been received. Br. Idris Mohammed will be in touch within 24 hours, in sh\u0101' All\u0101h, to confirm availability and details. Please check your email \u2014 including the spam folder.</p>
+        <div class="ref-num">Reference \u00b7 ${ref}</div>
       </div>
     `;
-  });
+  }
+
   form.querySelectorAll('input, select, textarea').forEach(f => {
     f.addEventListener('input', () => {
       const wrap = f.closest('.field');
